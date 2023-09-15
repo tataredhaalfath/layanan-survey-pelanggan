@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('question');
             $table->string('type')->default('text');
             $table->string('prompt_data')->nullable();
+            $table->string('placeholder')->nullable();
             $table->timestamps();
         });
     }
