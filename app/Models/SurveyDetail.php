@@ -18,6 +18,6 @@ class SurveyDetail extends Model
 
     public function surver()
     {
-        $this->belongsTo(Survey::class, 'survey_code', 'survey_code');
+        $this->belongsTo(Survey::class, 'survey_id', 'id');
     }
 }
