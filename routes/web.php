@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\MasterQuestionController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Dashboard
+Route::prefix('admin')->namespace('admin')->group(function () {
+  Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+  Route::get('/questions', [MasterQuestionController::class, 'index'])->name('master-questions');
+});

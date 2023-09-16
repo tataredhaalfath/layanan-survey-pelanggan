@@ -39,6 +39,17 @@
                         </div>
                         <div class="surver-form-body">
                             {{-- INPUT --}}
+                            <div class="survey-form-category">
+                                <label for="name">Nama</label>
+                                <input type="text" id="name" name="name" class="form-control mt-2"
+                                    placeholder="masukan nama" required>
+                            </div>
+                            <div class="survey-form-category">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" class="form-control mt-2"
+                                    placeholder="masukan email" required>
+                            </div>
+
                         </div>
                         {{-- <div class="survey-form-category">
                             <label for="">Nama</label>
@@ -77,8 +88,10 @@
 
                         <div class="survey-form-footer">
                             <div class="footer-right text-right">
+                                <button class="btn btn-reset" type="reset" id="reset-survey" style="display:none"
+                                    data-attach-loading="">LAPOR!</button>
                                 <button class="btn btn-submit" type="submit" id="submit-survey"
-                                    data-attach-loading="">LAPOR!</>
+                                    data-attach-loading="">LAPOR!</button>
                             </div>
                         </div>
                 </div>
@@ -90,41 +103,69 @@
 @endsection
 
 @push('script')
+    <!-- jQuery UI-->
+    <script src="{{ asset('js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') }}"></script>
+    <!-- Atlantis JS-->
+    <script src="{{ asset('js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+    {{-- custom alert --}}
+    <script src="{{ asset('js/alert.js') }}"></script>
+    <script src="{{ asset('js/plugin/datatables/datatables.min.js') }}"></script>
     <script>
         $(function() {
-            renderInputList(dataQuestions)
+            // renderInputList(dataQuestions)
+            getQuestions()
         })
 
-        const dataQuestions = [{
-                type: "text",
-                question: "Siapa Namu ?",
-                placeholder: "nama",
-                isRequired: true,
-                id: "251231231"
-            },
-            {
-                type: "number",
-                question: "Berapa Usiamu ?",
-                placeholder: "usia",
-                isRequired: true,
-                id: "251231512"
-            },
-            {
-                type: "select",
-                question: "Hobi",
-                prompt_data: "['main bola', 'basket', 'berenang']",
-                placeholder: "hobi",
-                isRequired: true,
-                id: "276122331"
-            },
-            {
-                type: "textarea",
-                question: "Biodata",
-                placeholder: "biodata",
-                isRequired: false,
-                id: "151129231"
-            }
-        ]
+        function getQuestions() {
+            const url = '/api/question/list'
+            $.ajax({
+                url: url,
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    console.log("response :", response)
+                    if (response.status == 200) {
+                        renderInputList(response.data)
+                    }
+                },
+                error: function(error) {
+                    console.log("error : ", error)
+                },
+            })
+
+        }
+
+        // const dataQuestions = [{
+        //         type: "text",
+        //         question: "Siapa Namu ?",
+        //         placeholder: "nama",
+        //         isRequired: true,
+        //         id: "251231231"
+        //     },
+        //     {
+        //         type: "number",
+        //         question: "Berapa Usiamu ?",
+        //         placeholder: "usia",
+        //         isRequired: true,
+        //         id: "251231512"
+        //     },
+        //     {
+        //         type: "select",
+        //         question: "Hobi",
+        //         prompt_data: "['main bola', 'basket', 'berenang']",
+        //         placeholder: "hobi",
+        //         isRequired: true,
+        //         id: "276122331"
+        //     },
+        //     {
+        //         type: "textarea",
+        //         question: "Biodata",
+        //         placeholder: "biodata",
+        //         isRequired: false,
+        //         id: "151129231"
+        //     }
+        // ]
 
         function renderInputList(questions) {
             const formBody = $(".surver-form-body");
@@ -163,9 +204,9 @@
                 type: 'text',
                 id: data.id,
                 name: data.id,
-                class: 'form-control',
+                class: 'form-control mt-2',
                 placeholder: data.placeholder,
-                required: data.isRequired
+                required: data.isRequired == 1
             });
 
             surveyFormCategory.append(label, inputElement);
@@ -184,9 +225,9 @@
                 type: 'number',
                 id: data.id,
                 name: data.id,
-                class: 'form-control',
+                class: 'form-control mt-2',
                 placeholder: data.placeholder,
-                required: data.isRequired
+                required: data.isRequired == 1
             });
 
             surveyFormCategory.append(label, inputElement);
@@ -206,9 +247,9 @@
             const selectElement = $('<select>', {
                 id: data.id,
                 name: data.id,
-                class: 'form-control',
+                class: 'form-control mt-2',
                 placeholder: data.placeholder,
-                required: data.isRequired,
+                required: data.isRequired == 1,
             });
 
             $.each(dataOptions, function(index, value) {
@@ -233,9 +274,9 @@
             const inputElement = $('<textarea>', {
                 id: data.id,
                 name: data.id,
-                class: 'form-control',
+                class: 'form-control mt-2',
                 placeholder: data.placeholder,
-                required: data.isRequired,
+                required: data.isRequired == 1,
                 rows: 6,
                 style: 'overflow: hidden; overflow-wrap: break-word; height: 158px;'
             });
@@ -252,6 +293,31 @@
                 data.forEach(function(value, key) {
                     console.log(key + ': ' + value);
                 });
+
+                $.ajax({
+                    url: "/api/survey/create",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    data: data,
+                    beforeSend: function() {
+                        console.log("Sending data... !")
+                    },
+                    success: function(msg) {
+                        console.log("MSG :", msg)
+                        if (msg.status == 200) {
+                            showMessage('success', 'flaticon-alarm-1', 'Sukses', msg.message)
+                            $("#reset-survey").click()
+                        } else {
+                            showMessage('warning', 'flaticon-error', 'Peringatan', msg.message)
+                        }
+                    },
+                    error: function(error) {
+                        showMessage('warning', 'flaticon-error', 'Peringatan', error)
+                        console.log("error : ", error)
+                    },
+                })
 
             })
         })

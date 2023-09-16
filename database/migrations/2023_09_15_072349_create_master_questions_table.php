@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('master_questions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('title');
-            $table->boolean('isRequired')->default(true);
             $table->string('question');
+            $table->string('placeholder')->nullable();
             $table->string('type')->default('text');
             $table->string('prompt_data')->nullable();
-            $table->string('placeholder')->nullable();
+            $table->boolean('isRequired')->default(true);
             $table->timestamps();
         });
     }

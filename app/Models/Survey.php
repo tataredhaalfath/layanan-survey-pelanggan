@@ -9,6 +9,9 @@ class Survey extends Model
 {
     use HasFactory;
 
+    protected $keyType = 'string';
+    protected $fillable = ['id', 'name', 'email'];
+
     protected $quarded = [];
 
     public function surveyDetail()

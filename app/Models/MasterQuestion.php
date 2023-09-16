@@ -9,7 +9,11 @@ class MasterQuestion extends Model
 {
     use HasFactory;
 
+    protected $keyType = 'string';
+    protected $fillable = ['id', 'question', 'placeholder', 'type', 'prompt_data', 'isRequired'];
+
     protected $quarded = [];
+
 
     public function surveyDetail()
     {
