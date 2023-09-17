@@ -70,12 +70,12 @@ class MasterQuestionController extends Controller
 
             $isRequired = $q->isRequired == 1 ? "<small class='pcoded-badge label label-success'>Harus Dijawab</small>" : "<small class='pcoded-badge label label-warning'>Optional</small>";
             $action = "<div class='dropdown-primary dropdown open'>
-                            <button class='btn btn-sm btn-primary dropdown-toggle waves-effect waves-light' id='dropdown-{$q->uuid}' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>
+                            <button class='btn btn-sm btn-primary dropdown-toggle waves-effect waves-light' id='dropdown-{$q->id}' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'>
                                 Aksi
                             </button>
-                            <div class='dropdown-menu' aria-labelledby='dropdown-{$q->uuid}' data-dropdown-out='fadeOut'>
+                            <div class='dropdown-menu' aria-labelledby='dropdown-{$q->id}' data-dropdown-out='fadeOut'>
                                 <a class='dropdown-item' onclick='return getData(this);' href='javascript:void(0);' title='Edit'>Edit</a>
-                                <a class='dropdown-item' onclick='return removeData(\"{$q->uuid}\");' href='javascript:void(0)' title='Remove'>Hapus</a>
+                                <a class='dropdown-item' onclick='return removeData(\"{$q->id}\");' href='javascript:void(0)' title='Remove'>Hapus</a>
                             </div>
                         </div>";
 
@@ -106,6 +106,22 @@ class MasterQuestionController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $data,
+        ]);
+    }
+    public function destroy(Request $request)
+    {
+        $data = MasterQuestion::find($request->input('id'));
+        if (!$data) {
+            return response()->json([
+                'status' => 404,
+                'message' => "Data pertanyaan tidak ditemukan"
+            ]);
+        }
+
+        $data->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => "Data pertanyaan berhasil dihapus"
         ]);
     }
 }

@@ -1,4 +1,4 @@
-GLOBAL
+/* GLOBAL */
 .mg-b-40 {
     margin-bottom: 40px;
 }
@@ -88,7 +88,6 @@ GLOBAL
 
 .survey-form-category {
     position: relative;
-    /* border-bottom: 1px solid #ddd; */
     padding-bottom: 15px;
 }
 

@@ -37,7 +37,7 @@
                         <div class="survey-form-box">
                             <div class="select-survey">Sampaikan Survey Anda</div>
                         </div>
-                        <div class="surver-form-body">
+                        <div class="survey-form-body">
                             {{-- INPUT --}}
                             <div class="survey-form-category">
                                 <label for="name">Nama</label>
@@ -49,43 +49,7 @@
                                 <input type="email" id="email" name="email" class="form-control mt-2"
                                     placeholder="masukan email" required>
                             </div>
-
                         </div>
-                        {{-- <div class="survey-form-category">
-                            <label for="">Nama</label>
-                            <input type="text" id="title" name="title" class="form-control" placeholder="Nama *" />
-                        </div>
-                        <div class="survey-form-category">
-                            <input type="email" id="email" name="email" class="form-control"
-                                placeholder="Email *" />
-                        </div>
-                        <div class="survey-form-category">
-                            <input type="text" name="title" class="form-control"
-                                placeholder="Ketik Judul Survey Anda *" />
-                        </div>
-                        <div class="survey-form-category">
-                            <textarea name="content" id="" rows="6" class="form-control textarea-flex autosize"
-                                placeholder="Ketik Isi Survey Anda *" style="overflow: hidden; overflow-wrap: break-word; height: 158px;"></textarea>
-                        </div>
-
-                        <div class="survey-form-category">
-                            <select class="form-control selectized" name="suggestion_institution_id"
-                                id="select_institution_id" placeholder="Ketik Instansi Tujuan"
-                                data-request-search="survey::onSearchInstitution" tabindex="-1" style="display: none">
-                                <option value="" selected="selected"></option>
-                            </select>
-                            <div class="selectize-control form-control single">
-                                <div class="selectize-input items not-full">
-                                    <input type="text" autocomplete="off" tabindex=""
-                                        id="select_institution_id-selectized" placeholder="Ketik Instansi Tujuan"
-                                        style="width: 133.188px" />
-                                </div>
-                                <div class="selectize-dropdown single form-control" style="display: none">
-                                    <div class="selectize-dropdown-content"></div>
-                                </div>
-                            </div>
-                        </div> --}}
-
                         <div class="survey-form-footer">
                             <div class="footer-right text-right">
                                 <button class="btn btn-reset" type="reset" id="reset-survey" style="display:none"
@@ -168,7 +132,7 @@
         // ]
 
         function renderInputList(questions) {
-            const formBody = $(".surver-form-body");
+            const formBody = $(".survey-form-body");
             questions.map((data) => {
                 let elementInput;
                 switch (data.type) {

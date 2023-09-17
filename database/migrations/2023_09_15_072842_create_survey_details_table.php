@@ -17,14 +17,14 @@ return new class extends Migration
             $table->string('answer')->nullable();
             $table->string('type');
             $table->string('prompt_data')->nullable();
-
+            $table->integer('order_data')->default(1);
             // relation to table survey (survey_id > id)
             $table->uuid('survey_id');
-            $table->foreign('survey_id')->references('id')->on('surveys');
+            $table->foreign('survey_id')->references('id')->on('surveys')->onDelete('cascade');
 
             // relstion to table master_questions (question_id > id)
             $table->uuid('question_id');
-            $table->foreign('question_id')->references('id')->on('master_questions');
+            $table->foreign('question_id')->references('id')->on('master_questions')->onDelete('cascade');
             $table->timestamps();
         });
     }

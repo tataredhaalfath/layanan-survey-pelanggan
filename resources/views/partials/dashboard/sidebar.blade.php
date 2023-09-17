@@ -53,15 +53,15 @@
                     <h4 class="text-section">Administrator</h4>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('master-questions')}}">
-                        <i class="fa fa-database"></i>
+                    <a href="{{ route('master-questions') }}">
+                        <i class="fas fa-database"></i>
                         <p>Master Pertanyaan</p>
                         <span class="caret"></span>
                     </a>
 
                 </li>
                 <li class="nav-item">
-                    <a href="#">
+                    <a href="{{ route('survey') }}">
                         <i class="fas fa-chart-bar"></i>
                         <p>Data Survey</p>
                         <span class="caret"></span>

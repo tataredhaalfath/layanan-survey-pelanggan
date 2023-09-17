@@ -1,11 +1,10 @@
 @extends('layouts.dashboard')
 @section('title', $title)
 @push('style')
-
 @endpush
 @section('content')
 
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-md-12" id="boxTable">
             <div class="card">
                 <div class="card-header">
@@ -201,13 +200,39 @@
                 success: function(msg) {
                     console.log("MSG : ", msg)
                     if (msg.status == 200) {
+                        closeForm();
+                        dTable.ajax.reload(null, false);
                         showMessage('success', 'flaticon-alarm-1', 'Sukses', msg.message)
-                        showMessage('success', 'Sukses', response.message)
-                        $("#btnClose").trigger("click");
                     } else {
                         showMessage('warning', 'flaticon-error', 'Peringatan', msg.message)
 
                     }
+                }
+            })
+        }
+
+        function removeData(id) {
+            $.ajax({
+                url: `/api/question/delete`,
+                method: "DELETE",
+                data: {
+                    id: id,
+                },
+                beforeSend: function() {
+                    return confirm("Yakin untuk menghapus data ?");
+                    console.log("Sending Data")
+                },
+                success: function(msg) {
+                    if (msg.status == 200) {
+                        dTable.ajax.reload(null, false)
+                        showMessage("success", 'flaticon-alarm-1', 'Success !', msg.message)
+                    } else {
+                        showMessage('danger', 'flaticon-error', 'Error !', msg.message)
+                    }
+                },
+                error: function(error) {
+                    console.log("error : ", error)
+                    showMessage('danger', 'flaticon-error', 'Error !', error)
                 }
             })
         }

@@ -19,5 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('question/create', [MasterQuestionController::class, 'addQuestion']);
 Route::get('question/dataTable', [MasterQuestionController::class, 'dataTable']);
 Route::get('question/list', [MasterQuestionController::class, 'list']);
+Route::delete('question/delete', [MasterQuestionController::class, 'destroy']);
 
 Route::post('survey/create', [SurveyController::class, 'create']);
+Route::get("survey/dataTable", [SurveyController::class, 'dataTable']);
+Route::get("survey/detail/{id}", [SurveyController::class, 'getDetail']);
+Route::delete('survey/delete', [SurveyController::class, 'destroy']);
