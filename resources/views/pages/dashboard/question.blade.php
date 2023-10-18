@@ -247,7 +247,7 @@
                     }
                 },
                 error: function(error){
-                    consle.log("error :", error),
+                    console.log("error :", error),
                     showMessage('danger', 'flaticon-error', 'Error !', error.message)
                 }
             })
