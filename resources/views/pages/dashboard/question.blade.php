@@ -50,6 +50,7 @@
                 </div>
                 <div class="card-block">
                     <form>
+                        <input class="form-control" id="id" type="hidden" name="id" required />
                         <div class="form-group">
                             <label for="question">Pertanyaan</label>
                             <input class="form-control" id="question" type="text" name="question" required />
@@ -69,7 +70,8 @@
                         </div>
                         <div class="form-group" id="input_prompt" style="display: none">
                             <label for="prompt_data">Prompt Data</label>
-                            <input class="form-control" id="prompt_data" type="text" name="prompt_data" />
+                            <input class="form-control" id="prompt_data" type="text" name="prompt_data"
+                                placeholder="pilihan1 | pilihan2 | pilihan3" />
                             <small>List opsi dari tipe "Select"
                                 <br />
                             </small><small>contoh = pilihan1 | pilihan2 | pilihan3</small>
@@ -148,6 +150,42 @@
             $("#question").focus();
         }
 
+        function getData(id) {
+            $.ajax({
+                url: `/api/question/${id}/detail`,
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == 200) {
+                        $("#formEditable").fadeIn(200, function() {
+                            let d = response.data;
+                            $(this).attr('data-action', 'update')
+                            $("#boxTable").removeClass("col-md-12").addClass("col-md-8");
+                            $("#id").val(d.id);
+                            $("#question").focus().val(d.question);
+                            $("#placeholder").val(d.placeholder);
+                            $("#type").val(d.type);
+                            if (d.type == "select") {
+                                let prompt = JSON.parse(d.prompt_data);
+                                $('#input_prompt').show()
+                                $("#prompt_data").val(prompt.join(" | "))
+                            } else {
+                                $('#input_prompt').hide()
+                                $("#prompt_data").val(d.prompt_data)
+                            }
+                            $("#is_required").val(d.isRequired);
+                        })
+                    } else {
+                        showMessage('warning', 'flaticon-error', 'Peringatan', response.message)
+                    }
+                },
+                error: function(error) {
+                    showMessage('warning', 'flaticon-error', 'Peringatan', error);
+                    console.log("error :", error)
+                }
+            })
+        }
+
         function closeForm(element) {
             $("#formEditable").slideUp(200, function() {
                 $("#boxTable").removeClass("col-md-8").addClass("col-md-12")
@@ -176,6 +214,7 @@
 
             let prompt_data = $("#type").val() == "select" ? convertPrompt : null;
             const dataToSend = {
+                id: $("#id").val(),
                 question: $("#question").val(),
                 placeholder: $("#placeholder").val(),
                 type: $("#type").val(),
@@ -188,7 +227,7 @@
 
         function saveData(data, action) {
             $.ajax({
-                url: action == "edit" ? "/api/question/edit" : "/api/question/create",
+                url: action == "update" ? "/api/question/update" : "/api/question/create",
                 method: 'POST',
                 header: {
                     'Content-Type': 'application/json',
@@ -198,7 +237,6 @@
                     console.log("Loading...")
                 },
                 success: function(msg) {
-                    console.log("MSG : ", msg)
                     if (msg.status == 200) {
                         closeForm();
                         dTable.ajax.reload(null, false);

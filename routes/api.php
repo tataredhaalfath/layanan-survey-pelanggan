@@ -17,11 +17,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('question/create', [MasterQuestionController::class, 'addQuestion']);
+Route::post('question/update', [MasterQuestionController::class, 'updateQuestion']);
 Route::get('question/dataTable', [MasterQuestionController::class, 'dataTable']);
 Route::get('question/list', [MasterQuestionController::class, 'list']);
+Route::get('question/{id}/detail',[MasterQuestionController::class, 'getDetail']);
 Route::delete('question/delete', [MasterQuestionController::class, 'destroy']);
 
 Route::post('survey/create', [SurveyController::class, 'create']);
 Route::get("survey/dataTable", [SurveyController::class, 'dataTable']);
-Route::get("survey/detail/{id}", [SurveyController::class, 'getDetail']);
+Route::get("survey/{id}/detail", [SurveyController::class, 'getDetail']);
 Route::delete('survey/delete', [SurveyController::class, 'destroy']);

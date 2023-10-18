@@ -41,12 +41,52 @@ class MasterQuestionController extends Controller
             'placeholder' => $data['placeholder'],
             'type' => $data['type'],
             'prompt_data' => $data['prompt_data'],
-            'isRequired' => $data['isRequired']
+            'isRequired' => $data['isRequired'],
         ]);
 
         return response()->json([
             'status' => 200,
             'message' => "Data Pertanyaan Berhasil Dibuat"
+        ]);
+    }
+
+    public function updateQuestion(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'question' => 'required',
+            'placeholder' => 'required',
+            'type' => 'required',
+            'prompt_data' => 'nullable',
+            'isRequired' => 'required',
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => $validator->errors()
+            ]);
+        };
+
+        $data = $request->all();
+        $question = MasterQuestion::find($data['id']);
+        if (!$question) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data pertanyaan tidak ditemukan'
+            ]);
+        }
+
+        $question->question = $data['question'];
+        $question->placeholder = $data['placeholder'];
+        $question->type = $data['type'];
+        $question->prompt_data = $data['prompt_data'];
+        $question->isRequired = $data['isRequired'];
+        $question->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => "Data Pertanyaan Berhasil Diperbarui"
         ]);
     }
 
@@ -74,7 +114,7 @@ class MasterQuestionController extends Controller
                                 Aksi
                             </button>
                             <div class='dropdown-menu' aria-labelledby='dropdown-{$q->id}' data-dropdown-out='fadeOut'>
-                                <a class='dropdown-item' onclick='return getData(this);' href='javascript:void(0);' title='Edit'>Edit</a>
+                                <a class='dropdown-item' onclick='return getData(\"{$q->id}\");' href='javascript:void(0);' title='Edit'>Edit</a>
                                 <a class='dropdown-item' onclick='return removeData(\"{$q->id}\");' href='javascript:void(0)' title='Remove'>Hapus</a>
                             </div>
                         </div>";
@@ -122,6 +162,22 @@ class MasterQuestionController extends Controller
         return response()->json([
             'status' => 200,
             'message' => "Data pertanyaan berhasil dihapus"
+        ]);
+    }
+
+    public function getDetail($id)
+    {
+        $data = MasterQuestion::find($id);
+        if (!$data) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data pertanyaan tidak ditemukan'
+            ]);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $data
         ]);
     }
 }

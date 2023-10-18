@@ -40,15 +40,14 @@
         getId = getId.pop();
         $(function() {
             $.ajax({
-                url: `/api/survey/detail/${getId}`,
+                url: `/api/survey/${getId}/detail`,
                 method: "GET",
                 dataType: 'json',
                 success: function(response) {
-                    console.log("response :", response);
                     if (response.status == 200) {
                         renderSurveyList(response.data);
                     } else {
-                        showMessage('warning', 'flaticon-error', 'Peringatan', error)
+                        showMessage('warning', 'flaticon-error', 'Peringatan', response.message)
                     }
                 },
                 error: function(error) {
