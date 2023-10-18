@@ -245,6 +245,10 @@
                         showMessage('warning', 'flaticon-error', 'Peringatan', msg.message)
 
                     }
+                },
+                error: function(error){
+                    consle.log("error :", error),
+                    showMessage('danger', 'flaticon-error', 'Error !', error.message)
                 }
             })
         }
@@ -270,7 +274,7 @@
                 },
                 error: function(error) {
                     console.log("error : ", error)
-                    showMessage('danger', 'flaticon-error', 'Error !', error)
+                    showMessage('danger', 'flaticon-error', 'Error !', error.message)
                 }
             })
         }

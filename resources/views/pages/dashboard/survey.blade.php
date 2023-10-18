@@ -91,16 +91,16 @@
                     console.log("Sending Data")
                 },
                 success: function(msg) {
-                  if(msg.status == 200){
-                    dTable.ajax.reload(null, false)
-                    showMessage("success", 'flaticon-alarm-1', 'Success !', msg.message)
-                  } else {
-                    showMessage('danger', 'flaticon-error', 'Error !', msg.message)
-                  }
+                    if (msg.status == 200) {
+                        dTable.ajax.reload(null, false)
+                        showMessage("success", 'flaticon-alarm-1', 'Success !', msg.message)
+                    } else {
+                        showMessage('danger', 'flaticon-error', 'Error !', msg.message)
+                    }
                 },
                 error: function(error) {
-                    console.log("error : ", error )
-                    showMessage('danger', 'flaticon-error', 'Error !', error)
+                    console.log("error : ", error)
+                    showMessage('danger', 'flaticon-error', 'Error !', error.message)
                 }
             })
         }

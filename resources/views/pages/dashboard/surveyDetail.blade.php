@@ -51,7 +51,7 @@
                     }
                 },
                 error: function(error) {
-                    showMessage('warning', 'flaticon-error', 'Peringatan', error)
+                    showMessage('warning', 'flaticon-error', 'Peringatan', error.message)
                     console.log("error :", error)
                 }
             })
