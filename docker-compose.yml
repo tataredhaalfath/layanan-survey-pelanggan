@@ -1,5 +1,7 @@
 version: '3'
 services:
+
+  #Laravel Service
   app:
     build:
       args:
@@ -14,6 +16,8 @@ services:
       - ./:/var/www
     networks:
       - survey
+
+  #Nginx Service
   nginx:
     image: nginx:1.17-alpine
     container_name: survey-nginx
@@ -26,6 +30,27 @@ services:
     networks:
       - survey
 
+  #MySQL Service
+  db:
+    image: mysql:5.7.22
+    container_name: db_survey
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: layanan_survey_pelanggan
+      MYSQL_ROOT_PASSWORD: Rahasia123
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - survey
+
 networks:
   survey:
     driver: bridge
+volumes:
+  dbdata:
+    driver: local
